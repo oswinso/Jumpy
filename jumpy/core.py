@@ -16,30 +16,31 @@ __all__ = [
     "custom_jvp",
 ]
 
-try:
-    import jax
-    import jax.numpy as jnp
-    from jax import custom_jvp, tree_map
-    from jax.interpreters.batching import BatchTracer
-except ImportError:
-    jax, jnp = None, None
-
-    BatchTracer = None
-    tree_map = None
-
-    class custom_jvp:
-        """Custom JVP decorator."""
-
-        def __init__(self, func: callable):
-            """Initialise the custom jvp with func."""
-            self.func = func
-
-        def __call__(self, *args, **kwargs):
-            """Calls the func with `args` and `kwargs`."""
-            return self.func(*args, **kwargs)
-
-        def defjvp(self, func):
-            """For numpy only, we ignore the defjvp function."""
+# try:
+import jax
+import jax.numpy as jnp
+from jax import custom_jvp
+from jax.tree_util import tree_map
+from jax.interpreters.batching import BatchTracer
+# except ImportError as e:
+#     jax, jnp = None, None
+#
+#     BatchTracer = None
+#     tree_map = None
+#
+#     class custom_jvp:
+#         """Custom JVP decorator."""
+#
+#         def __init__(self, func: callable):
+#             """Initialise the custom jvp with func."""
+#             self.func = func
+#
+#         def __call__(self, *args, **kwargs):
+#             """Calls the func with `args` and `kwargs`."""
+#             return self.func(*args, **kwargs)
+#
+#         def defjvp(self, func):
+#             """For numpy only, we ignore the defjvp function."""
 
 
 def is_jitted() -> bool:
